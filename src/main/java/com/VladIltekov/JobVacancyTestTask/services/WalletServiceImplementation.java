@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class WalletServiceImplementation implements WalletService {
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public PostResponseModel walletDeposit(String walletName, double amount, String userOperationType){
         PostResponseModel postResponseModel = new PostResponseModel();
         wallet = findWalletBalanceDto(walletName);
@@ -72,7 +73,7 @@ public class WalletServiceImplementation implements WalletService {
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public PostResponseModel walletWithdraw(String walletName, double amount, String userOperationType) {
         PostResponseModel postResponseModel = new PostResponseModel();
         wallet = findWalletBalanceDto(walletName);
